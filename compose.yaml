@@ -1,0 +1,104 @@
+version: '3.8'
+
+# Оголошуємо всі наші мікросервіси
+services:
+  # 1. База даних PostgreSQL
+  db:
+    image: postgres:15-alpine
+    container_name: postgres_db
+    env_file:
+      - .env
+    # Healthcheck - перевіряє, чи БД реально готова приймати підключення (вимога "Бажано")
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - lab_network
+    volumes:
+      - pg_data:/var/lib/postgresql/data # Зберігаємо дані БД навіть після зупинки контейнера
+
+  # 2. Модуль завантаження даних
+  data_load:
+    build: ./data_load
+    container_name: service_data_load
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy # Чекає, поки healthcheck бази даних скаже "ОК"
+    networks:
+      - lab_network
+    volumes:
+      - ./data:/app/data:ro # Прокидаємо локальну папку data в контейнер (тільки для читання)
+
+  # 3. Модуль перевірки якості
+  data_quality_analysis:
+    build: ./data_quality_analysis
+    container_name: service_quality
+    env_file:
+      - .env
+    depends_on:
+      data_load:
+        # Чекає, поки data_load успішно відпрацює і завершиться! Це гарантує, що таблиця існує.
+        condition: service_completed_successfully
+    networks:
+      - lab_network
+    volumes:
+      - shared_reports:/app/reports # Спільний том для звітів
+
+  # 4. Модуль дослідження даних
+  data_research:
+    build: ./data_research
+    container_name: service_research
+    env_file:
+      - .env
+    depends_on:
+      data_load:
+        condition: service_completed_successfully
+    networks:
+      - lab_network
+    volumes:
+      - shared_reports:/app/reports # Спільний том для звітів
+
+  # 5. Модуль візуалізації
+  visualization:
+    build: ./visualization
+    container_name: service_visualization
+    env_file:
+      - .env
+    depends_on:
+      data_load:
+        condition: service_completed_successfully
+    networks:
+      - lab_network
+    volumes:
+      - shared_plots:/app/plots # Спільний том для графіків
+
+  # 6. Веб-інтерфейс
+  web:
+    build: ./web
+    container_name: service_web
+    ports:
+      - "5001:5000" # Прокидаємо порт 5000 назовні
+    depends_on:
+      # Веб-сервер стартує після бази, але він написаний так, що не впаде, якщо звітів ще немає
+      db:
+        condition: service_healthy
+    networks:
+      - lab_network
+    volumes:
+      - shared_reports:/app/reports:ro # Підключаємо звіти (тільки для читання)
+      - shared_plots:/app/plots:ro     # Підключаємо графіки (тільки для читання)
+
+# Описуємо спільну мережу для спілкування контейнерів
+networks:
+  lab_network:
+    driver: bridge
+
+# Описуємо Docker Volumes (томи) для обміну файлами
+volumes:
+  pg_data:         # Для самої бази даних
+  shared_reports:  # Для JSON-звітів
+  shared_plots:    # Для PNG-графіків
