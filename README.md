@@ -26,26 +26,37 @@
 ---
 
 ## 4. Структура проєкту
-\`\`\`text
+
+```text
 docker_lab/
 ├── data/
 │   └── dataset.csv              
 ├── data_load/
-│   ├── app.py, Dockerfile, requirements.txt
+│   ├── app.py
+│   ├── Dockerfile
+│   └── requirements.txt
 ├── data_quality_analysis/
-│   ├── app.py, Dockerfile, requirements.txt
+│   ├── app.py
+│   ├── Dockerfile
+│   └── requirements.txt
 ├── data_research/
-│   ├── app.py, Dockerfile, requirements.txt
+│   ├── app.py
+│   ├── Dockerfile
+│   └── requirements.txt
 ├── visualization/
-│   ├── app.py, Dockerfile, requirements.txt
+│   ├── app.py
+│   ├── Dockerfile
+│   └── requirements.txt
 ├── web/
-│   ├── app.py, Dockerfile, requirements.txt
-│   └── templates/index.html           
+│   ├── app.py
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   └── templates/
+│       └── index.html           
 ├── screenshots/                 # Папка зі скріншотами результатів
 ├── .env                         # Змінні середовища (паролі БД)
 ├── compose.yaml                 # Оркестрація мікросервісів
-└── README.md                    
-\`\`\`                   
+└── README.md
 
 ## 5. Команди запуску
 Для збирання образів та запуску всього пайплайну локально:
