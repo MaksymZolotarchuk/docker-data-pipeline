@@ -58,10 +58,12 @@ docker compose up --build
 ## 7. Скріншоти результатів роботи
 
 ### Запуск docker compose up у терміналі (Успішне відпрацювання сервісів)
-![Термінал](screenshots/terminal.png)
+![Термінал](screen/terminal1.png)
+![Термінал](screen/terminal2.png)
 
 ### Список працюючих контейнерів (Docker Desktop)
-![Контейнери](screenshots/containers.png)
+![Контейнери](screen/containers.png)
 
 ### Веб-інтерфейс у браузері (Дашборд)
-![Браузер](screenshots/browser.png)
+![Браузер](screen/browser.png)
+![Браузер](screen/browser2.png)
