@@ -14,5 +14,9 @@ runcmd:
   - systemctl start docker
   - usermod -aG docker azureuser
   - git clone https://github.com/MaksymZolotarchuk/docker-data-pipeline.git /home/azureuser/app
+  # Запуск основного додатку
   - cd /home/azureuser/app
   - docker compose up -d
+  # Запуск моніторингу
+  - cd /home/azureuser/app/monitoring
+  - docker compose -f docker-compose.monitoring.yml up -d
