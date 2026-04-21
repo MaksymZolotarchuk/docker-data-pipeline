@@ -7,14 +7,14 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: web-app
+      app: web
   template:
     metadata:
       labels:
-        app: web-app
+        app: web
     spec:
       containers:
-      - name: web-app-container
+      - name: web-container
         image: nginx:latest
         ports:
         - containerPort: 80
