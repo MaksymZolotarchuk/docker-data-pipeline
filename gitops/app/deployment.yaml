@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: web-app-container
-        image: maksymzolotarchuk/docker_lab-web:v1
+        image: nginx:latest
         ports:
         - containerPort: 80
         env:
