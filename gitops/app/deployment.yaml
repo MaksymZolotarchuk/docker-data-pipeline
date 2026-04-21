@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: web-app-container
-        image: <ваша-назва-образу>:latest # Наприклад: mydockerhub/myapp:v1.0
+        image: maksymzolotarchuk/docker_lab-web:v1
         ports:
         - containerPort: 80
         env:
