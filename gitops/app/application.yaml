@@ -1,20 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: lab-gitops-app
+  name: my-gitops-app
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: 'https://github.com/MaksymZolotarchuk/docker-data-pipeline.git'
-    targetRevision: HEAD
+    targetRevision: main
     path: gitops/app
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: lab-namespace
+    namespace: my-app-prod
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+      allowEmpty: true
     syncOptions:
-      - CreateNamespace=true
+    - CreateNamespace=true
