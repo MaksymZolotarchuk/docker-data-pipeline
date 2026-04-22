@@ -18,6 +18,3 @@ spec:
         image: nginx:latest
         ports:
         - containerPort: 80
-        env:
-        - name: APP_VERSION
-          value: "1.0"
