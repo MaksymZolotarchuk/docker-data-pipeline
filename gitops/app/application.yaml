@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/MaksymZolotarchuk/docker-data-pipeline.git'
+    repoURL: 'https://github.com/https://github.com/MaksymZolotarchuk/docker-data-pipeline.git'
     targetRevision: main
     path: gitops/app
   destination:
@@ -16,6 +16,3 @@ spec:
     automated:
       prune: true
       selfHeal: true
-      allowEmpty: true
-    syncOptions:
-    - CreateNamespace=true
